@@ -36,8 +36,6 @@ export const animationConfig = {
 };
 
 /**
- * 禁用动画的Motion组件包装器
+ * 禁用动画的组件包装器 - 简化为仅导出配置
  */
-export function NoAnimation({ children, ...props }: any) {
-  return <div {...props}>{children}</div>;
-}
+export const NoAnimation = null;
