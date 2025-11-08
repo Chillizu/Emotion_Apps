@@ -288,101 +288,116 @@ export default function MusicPlayer({ isOpen = false, onToggle }: MusicPlayerPro
   return (
     <>
       {audioElement}
-      <div
-        style={{
-          position: 'fixed',
-          bottom: 16,
-          right: 16,
-          zIndex: theme.zIndex.speedDial,
-        }}
-      >
-        <Paper
-          sx={{
-            p: 2,
-            borderRadius: 3,
-            boxShadow: theme.shadows[8],
-            minWidth: 300,
-            background: `linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
+      
+      {/* 展开状态 - 完整播放器 */}
+      {isExpanded && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 16,
+            right: 16,
+            zIndex: theme.zIndex.speedDial,
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                {currentMusic.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {currentMusic.artist}
-              </Typography>
+          <Paper
+            sx={{
+              p: 3, // 增加内边距
+              borderRadius: 3,
+              boxShadow: theme.shadows[8],
+              minWidth: 320, // 稍微增加最小宽度
+              maxWidth: 400, // 添加最大宽度限制
+              background: `linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.background.default})`,
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 0.5 }}>
+                  {currentMusic.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {currentMusic.artist}
+                </Typography>
+              </Box>
+              <IconButton
+                onClick={toggleExpanded}
+                size="small"
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'action.hover',
+                  }
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
             </Box>
-            <IconButton onClick={toggleExpanded} size="small">
-              <CloseIcon />
-            </IconButton>
-          </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-            <Chip label={currentMusic.type} size="small" variant="outlined" />
-            <Chip label={currentMusic.mood} size="small" variant="outlined" />
-          </Box>
-
-          {/* 进度条 */}
-          <Box sx={{ mb: 2 }}>
-            <Slider
-              value={progress}
-              onChange={handleProgressChange}
-              sx={{
-                color: 'primary.main',
-                '& .MuiSlider-thumb': {
-                  width: 12,
-                  height: 12,
-                },
-              }}
-            />
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="caption" color="text.secondary">
-                {formatTime((progress / 100) * currentMusic.duration)}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {formatTime(currentMusic.duration)}
-              </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+              <Chip label={currentMusic.type} size="small" variant="outlined" />
+              <Chip label={currentMusic.mood} size="small" variant="outlined" />
             </Box>
-          </Box>
 
-          {/* 控制按钮 */}
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-            <IconButton onClick={handlePrev}>
-              <PrevIcon />
-            </IconButton>
-            <IconButton
-              onClick={handlePlayPause}
-              sx={{
-                backgroundColor: 'primary.main',
-                color: 'white',
-                '&:hover': {
-                  backgroundColor: 'primary.dark',
-                },
-              }}
-            >
-              {isPlaying ? <PauseIcon /> : <PlayIcon />}
-            </IconButton>
-            <IconButton onClick={handleNext}>
-              <NextIcon />
-            </IconButton>
-          </Box>
+            {/* 进度条 */}
+            <Box sx={{ mb: 3 }}>
+              <Slider
+                value={progress}
+                onChange={handleProgressChange}
+                sx={{
+                  color: 'primary.main',
+                  '& .MuiSlider-thumb': {
+                    width: 12,
+                    height: 12,
+                  },
+                }}
+              />
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
+                <Typography variant="caption" color="text.secondary">
+                  {formatTime((progress / 100) * currentMusic.duration)}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {formatTime(currentMusic.duration)}
+                </Typography>
+              </Box>
+            </Box>
 
-          {/* 音量控制 */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <VolumeIcon sx={{ color: 'text.secondary' }} />
-            <Slider
-              value={volume * 100}
-              onChange={handleVolumeChange}
-              size="small"
-              sx={{ flex: 1 }}
-            />
-          </Box>
-        </Paper>
-      </div>
+            {/* 控制按钮 */}
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+              <IconButton onClick={handlePrev} size="large">
+                <PrevIcon />
+              </IconButton>
+              <IconButton
+                onClick={handlePlayPause}
+                size="large"
+                sx={{
+                  backgroundColor: 'primary.main',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: 'primary.dark',
+                  },
+                }}
+              >
+                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              </IconButton>
+              <IconButton onClick={handleNext} size="large">
+                <NextIcon />
+              </IconButton>
+            </Box>
 
-      {/* 浮动按钮 */}
+            {/* 音量控制 */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <VolumeIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+              <Slider
+                value={volume * 100}
+                onChange={handleVolumeChange}
+                size="small"
+                sx={{ flex: 1 }}
+              />
+            </Box>
+          </Paper>
+        </div>
+      )}
+
+      {/* 收起状态 - 浮动按钮 */}
       {!isExpanded && (
         <div
           style={{
@@ -397,6 +412,10 @@ export default function MusicPlayer({ isOpen = false, onToggle }: MusicPlayerPro
             onClick={toggleExpanded}
             sx={{
               background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+              '&:hover': {
+                transform: 'scale(1.05)',
+                transition: 'transform 0.2s',
+              }
             }}
           >
             <MusicIcon />

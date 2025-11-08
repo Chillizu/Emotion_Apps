@@ -24,6 +24,7 @@ import {
   Switch,
   FormControlLabel,
   Alert,
+  Grid,
 } from '@mui/material';
 import {
   Send as SendIcon,
@@ -232,74 +233,234 @@ export default function AIChatPage() {
       {/* 聊天消息区域 */}
       <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
         {messages.length === 0 ? (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <AIIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-            <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
-              欢迎使用AI情绪陪伴
+          <Box sx={{ textAlign: 'center', py: 8, px: 2 }}>
+            <AIIcon sx={{ fontSize: 64, color: 'primary.main', mb: 2, opacity: 0.8 }} />
+            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, color: 'text.primary' }}>
+              AI情绪陪伴助手
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              我可以倾听您的心情，提供情绪支持和建议
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 4, lineHeight: 1.6, maxWidth: 500, mx: 'auto' }}>
+              我是您的专属情绪陪伴助手，24小时在线倾听您的心情，提供专业的心理支持和情绪调节建议
+            </Typography>
+            
+            {/* 快速开始建议 */}
+            <Box sx={{ maxWidth: 600, mx: 'auto', mb: 4 }}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 3, color: 'primary.main' }}>
+                您可以这样开始对话：
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Card
+                    sx={{
+                      p: 2,
+                      cursor: 'pointer',
+                      borderRadius: 2,
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        borderColor: 'primary.main',
+                        backgroundColor: 'action.hover'
+                      }
+                    }}
+                    onClick={() => setInputMessage('我今天心情不太好，可以陪我聊聊吗？')}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: '500' }}>
+                      心情倾诉
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      分享您的感受和烦恼
+                    </Typography>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Card
+                    sx={{
+                      p: 2,
+                      cursor: 'pointer',
+                      borderRadius: 2,
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        borderColor: 'primary.main',
+                        backgroundColor: 'action.hover'
+                      }
+                    }}
+                    onClick={() => setInputMessage('我最近压力很大，有什么放松的方法吗？')}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: '500' }}>
+                      压力缓解
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      获取减压和放松建议
+                    </Typography>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Card
+                    sx={{
+                      p: 2,
+                      cursor: 'pointer',
+                      borderRadius: 2,
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        borderColor: 'primary.main',
+                        backgroundColor: 'action.hover'
+                      }
+                    }}
+                    onClick={() => setInputMessage('可以教我一些情绪管理的方法吗？')}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: '500' }}>
+                      情绪管理
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      学习情绪调节技巧
+                    </Typography>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Card
+                    sx={{
+                      p: 2,
+                      cursor: 'pointer',
+                      borderRadius: 2,
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        borderColor: 'primary.main',
+                        backgroundColor: 'action.hover'
+                      }
+                    }}
+                    onClick={() => setInputMessage('我想聊聊最近遇到的困难...')}
+                  >
+                    <Typography variant="body2" sx={{ fontWeight: '500' }}>
+                      问题解决
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      共同探讨解决方案
+                    </Typography>
+                  </Card>
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 3, fontStyle: 'italic' }}>
+              点击上方卡片快速开始，或直接在下方输入框输入您想说的话...
             </Typography>
           </Box>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             {messages.map((message, index) => (
-              
+              <Box
+                key={message.id}
+                sx={{
+                  display: 'flex',
+                  justifyContent: message.role === 'user' ? 'flex-end' : 'flex-start',
+                  mb: 2,
+                }}
+              >
                 <Box
                   sx={{
                     display: 'flex',
-                    justifyContent: message.role === 'user' ? 'flex-end' : 'flex-start',
-                    mb: 2,
+                    flexDirection: message.role === 'user' ? 'row-reverse' : 'row',
+                    alignItems: 'flex-start',
+                    maxWidth: isMobile ? '85%' : '70%',
+                    gap: 1,
                   }}
                 >
-                  <Box
+                  <Avatar
                     sx={{
-                      display: 'flex',
-                      flexDirection: message.role === 'user' ? 'row-reverse' : 'row',
-                      alignItems: 'flex-start',
-                      maxWidth: '70%',
-                      gap: 1,
+                      width: 36,
+                      height: 36,
+                      bgcolor: message.role === 'user' ? 'primary.main' : 'secondary.main',
+                      boxShadow: theme.shadows[1],
                     }}
                   >
-                    <Avatar
+                    {message.role === 'user' ? <PersonIcon /> : <AIIcon />}
+                  </Avatar>
+                  <Box
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      backgroundColor: message.role === 'user' ? 'primary.main' : 'grey.100',
+                      color: message.role === 'user' ? 'primary.contrastText' : 'text.primary',
+                      boxShadow: theme.shadows[1],
+                      maxWidth: '100%',
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
+                      {message.content}
+                    </Typography>
+                    <Typography
+                      variant="caption"
                       sx={{
-                        width: 32,
-                        height: 32,
-                        bgcolor: message.role === 'user' ? 'primary.main' : 'secondary.main',
+                        opacity: 0.7,
+                        mt: 1,
+                        display: 'block',
+                        color: message.role === 'user' ? 'primary.contrastText' : 'text.secondary'
                       }}
                     >
-                      {message.role === 'user' ? <PersonIcon /> : <AIIcon />}
-                    </Avatar>
-                    <Card                      sx={{
-                        p: 2,
-                        borderRadius: 2,
-                        backgroundColor: message.role === 'user' ? 'primary.light' : 'background.paper',
-                        color: message.role === 'user' ? 'primary.contrastText' : 'text.primary',
-                        boxShadow: theme.shadows[1],
-                      }}
-                    >
-                      <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
-                        {message.content}
-                      </Typography>
-                      <Typography variant="caption" sx={{ opacity: 0.7, mt: 1, display: 'block' }}>
-                        {new Date(message.timestamp).toLocaleTimeString('zh-CN')}
-                      </Typography>
-                    </Card>
+                      {new Date(message.timestamp).toLocaleTimeString('zh-CN', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </Typography>
                   </Box>
                 </Box>
-              
+              </Box>
             ))}
             {isLoading && (
               <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                  <Avatar sx={{ width: 32, height: 32, bgcolor: 'secondary.main' }}>
+                  <Avatar sx={{ width: 36, height: 36, bgcolor: 'secondary.main', boxShadow: theme.shadows[1] }}>
                     <AIIcon />
                   </Avatar>
-                  <Card
-                    sx={{ p: 2, borderRadius: 2 }}
+                  <Box
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      backgroundColor: 'grey.100',
+                      boxShadow: theme.shadows[1],
+                    }}
                   >
-                    <Typography variant="body1">正在思考中...</Typography>
-                  </Card>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Box
+                        sx={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: '50%',
+                          backgroundColor: 'primary.main',
+                          animation: 'pulse 1.5s ease-in-out infinite',
+                          '@keyframes pulse': {
+                            '0%': { opacity: 0.4 },
+                            '50%': { opacity: 1 },
+                            '100%': { opacity: 0.4 },
+                          },
+                        }}
+                      />
+                      <Box
+                        sx={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: '50%',
+                          backgroundColor: 'primary.main',
+                          animation: 'pulse 1.5s ease-in-out 0.2s infinite',
+                        }}
+                      />
+                      <Box
+                        sx={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: '50%',
+                          backgroundColor: 'primary.main',
+                          animation: 'pulse 1.5s ease-in-out 0.4s infinite',
+                        }}
+                      />
+                    </Box>
+                  </Box>
                 </Box>
               </Box>
             )}
@@ -315,29 +476,52 @@ export default function AIChatPage() {
       )}
 
       {/* 输入区域 */}
-      <Paper sx={{ p: 2, borderTop: 1, borderColor: 'divider' }}>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+      <Paper
+        sx={{
+          p: 2,
+          borderTop: 1,
+          borderColor: 'divider',
+          backgroundColor: 'background.paper'
+        }}
+      >
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-end' }}>
           <TextField
             fullWidth
             multiline
             maxRows={4}
             variant="outlined"
-            placeholder="告诉我您的心情..."
+            placeholder="告诉我您的心情、烦恼或任何想聊的话题..."
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             disabled={isLoading}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+              }
+            }}
           />
           <Button
             variant="contained"
             endIcon={<SendIcon />}
             onClick={handleSendMessage}
             disabled={!inputMessage.trim() || isLoading}
-            sx={{ minWidth: 'auto' }}
+            sx={{
+              minWidth: 'auto',
+              px: 3,
+              py: 1.5,
+              borderRadius: 2,
+              fontWeight: 'bold'
+            }}
           >
             发送
           </Button>
         </Box>
+        {messages.length === 0 && (
+          <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+            按 Enter 发送，Shift + Enter 换行
+          </Typography>
+        )}
       </Paper>
 
       {/* 配置对话框 */}

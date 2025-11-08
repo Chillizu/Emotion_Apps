@@ -322,54 +322,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         />
       </Box>
 
-      {/* 移动端底部导航 */}
-      {isMobile && (
-        <Paper
-          sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: theme.zIndex.appBar,
-            borderTop: `1px solid ${theme.palette.divider}`,
-          }}
-          elevation={3}
-        >
-          <BottomNavigation
-            value={currentNavItem}
-            onChange={(event, newValue) => {
-              const item = filteredNavigationItems.find(i => i.id === newValue);
-              if (item) {
-                handleNavigation(item.path);
-              }
-            }}
-            sx={{
-              backgroundColor: 'background.paper',
-              '& .MuiBottomNavigationAction-root': {
-                minWidth: 'auto',
-                padding: '6px 12px',
-              },
-              '& .MuiBottomNavigationAction-label': {
-                fontSize: '0.75rem',
-                opacity: 0.7,
-                '&.Mui-selected': {
-                  fontSize: '0.75rem',
-                  opacity: 1,
-                },
-              },
-            }}
-          >
-            {filteredNavigationItems.slice(0, 5).map((item) => (
-              <BottomNavigationAction
-                key={item.id}
-                value={item.id}
-                icon={item.icon}
-                label={item.label}
-              />
-            ))}
-          </BottomNavigation>
-        </Paper>
-      )}
+      {/* 移动端底部导航 - 移除，避免与侧边栏重复 */}
+      {/* 移动端通过侧边栏抽屉提供导航，底部导航会造成交互冲突 */}
     </Box>
   );
 }

@@ -291,3 +291,28 @@ export interface ThemeConfig {
   };
   breakpoints: BreakpointConfig;
 }
+
+// 用户设置类型
+export interface UserSettings {
+  id: string;
+  userId: string;
+  emotionGuidance: {
+    priorityOrder: string[];
+    denyThreshold: number;
+    currentMethodIndex: number;
+    denyCounts: Record<string, number>;
+  };
+  notifications: {
+    enabled: boolean;
+    reminderTime: string;
+  };
+  theme: {
+    mode: 'light' | 'dark' | 'auto';
+    fontSize: 'small' | 'medium' | 'large';
+  };
+  privacy: {
+    shareData: boolean;
+    allowTracking: boolean;
+  };
+  updatedAt: string;
+}

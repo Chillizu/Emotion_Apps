@@ -36,7 +36,11 @@ import {
   Devices as DevicesIcon,
   Edit as EditIcon,
   Save as SaveIcon,
+  Psychology as PsychologyIcon,
+  ArrowUpward as ArrowUpwardIcon,
+  ArrowDownward as ArrowDownwardIcon,
 } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '@/lib/store/auth-store';
 import { indexedDBStorage } from '@/lib/storage/indexedDB';
@@ -48,6 +52,10 @@ interface UserSettings {
   language: string;
   reminderTime: string;
   dataRetention: number; // 数据保留天数
+  emotionGuidancePriority: string[]; // 情绪疏导方法优先级
+  emotionGuidanceRejectionLimit: number; // 连续否定次数阈值
+  currentPriorityIndex: number; // 当前优先级索引
+  rejectionCount: number; // 当前方法被否定次数
 }
 
 export default function ProfilePage() {
@@ -61,6 +69,10 @@ export default function ProfilePage() {
     language: 'zh-CN',
     reminderTime: '20:00',
     dataRetention: 365,
+    emotionGuidancePriority: ['music', 'breathing', 'meditation', 'gratitude', 'visualization'],
+    emotionGuidanceRejectionLimit: 3,
+    currentPriorityIndex: 0,
+    rejectionCount: 0,
   });
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editField, setEditField] = useState('');
@@ -499,6 +511,97 @@ export default function ProfilePage() {
                     ))}
                   </Box>
                 </Box>
+
+                <Divider sx={{ my: 2 }} />
+
+                {/* 情绪疏导优先级设置 */}
+                <Box sx={{ mb: 3 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <PsychologyIcon sx={{ mr: 1, color: 'primary.main' }} />
+                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                      情绪疏导方法优先级
+                    </Typography>
+                  </Box>
+                  
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    设置情绪疏导方法的推荐顺序。当优先级1的方法连续被否定
+                    <TextField
+                      size="small"
+                      type="number"
+                      value={settings.emotionGuidanceRejectionLimit}
+                      onChange={(e) => handleSettingChange('emotionGuidanceRejectionLimit', parseInt(e.target.value) || 3)}
+                      sx={{ width: 60, mx: 1 }}
+                    />
+                    次后，将自动推荐优先级2的方法。
+                  </Typography>
+
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 2 }}>
+                    {settings.emotionGuidancePriority.map((methodId, index) => {
+                      const method = emotionGuidanceMethods.find(m => m.id === methodId);
+                      return (
+                        <Card key={methodId} variant="outlined" sx={{ p: 2 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <Chip
+                                label={`优先级 ${index + 1}`}
+                                color="primary"
+                                size="small"
+                                sx={{ mr: 2 }}
+                              />
+                              <Box>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                                  {method?.name}
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary">
+                                  {method?.description}
+                                </Typography>
+                              </Box>
+                            </Box>
+                            <Box sx={{ display: 'flex', gap: 0.5 }}>
+                              {index > 0 && (
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    const newPriority = [...settings.emotionGuidancePriority];
+                                    [newPriority[index], newPriority[index - 1]] = [newPriority[index - 1], newPriority[index]];
+                                    handleSettingChange('emotionGuidancePriority', newPriority);
+                                  }}
+                                >
+                                  <ArrowUpwardIcon fontSize="small" />
+                                </IconButton>
+                              )}
+                              {index < settings.emotionGuidancePriority.length - 1 && (
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    const newPriority = [...settings.emotionGuidancePriority];
+                                    [newPriority[index], newPriority[index + 1]] = [newPriority[index + 1], newPriority[index]];
+                                    handleSettingChange('emotionGuidancePriority', newPriority);
+                                  }}
+                                >
+                                  <ArrowDownwardIcon fontSize="small" />
+                                </IconButton>
+                              )}
+                            </Box>
+                          </Box>
+                        </Card>
+                      );
+                    })}
+                  </Box>
+
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => {
+                      // 重置优先级设置
+                      handleSettingChange('emotionGuidancePriority', ['music', 'breathing', 'meditation', 'gratitude', 'visualization']);
+                      handleSettingChange('currentPriorityIndex', 0);
+                      handleSettingChange('rejectionCount', 0);
+                    }}
+                  >
+                    重置为默认顺序
+                  </Button>
+                </Box>
               </FormGroup>
 
               <Button
@@ -593,3 +696,15 @@ export default function ProfilePage() {
 
 // 添加Grid组件导入
 import Grid from '@mui/material/Grid';
+
+// 情绪疏导方法配置
+const emotionGuidanceMethods = [
+{ id: 'music', name: '听音乐', description: '通过音乐放松心情' },
+{ id: 'breathing', name: '呼吸练习', description: '深呼吸缓解紧张' },
+{ id: 'meditation', name: '正念冥想', description: '专注当下，平静心灵' },
+{ id: 'gratitude', name: '感恩练习', description: '记录感恩事项培养积极心态' },
+{ id: 'visualization', name: '积极想象', description: '想象美好场景提升情绪' },
+{ id: 'movie', name: '看电影', description: '通过影片转移注意力' },
+{ id: 'exercise', name: '轻度运动', description: '活动身体释放压力' },
+{ id: 'writing', name: '情绪写作', description: '通过书写表达情感' },
+];
