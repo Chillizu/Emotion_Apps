@@ -1,0 +1,47 @@
+{
+  "name": "mood-guardian-web",
+  "version": "1.0.0",
+  "description": "心情守护 - 中小学生情绪管理Web应用",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "next": "14.0.4",
+    "@mui/material": "^5.15.0",
+    "@mui/icons-material": "^5.15.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material-nextjs": "^5.15.0",
+    "zustand": "^4.4.7",
+    "framer-motion": "^10.16.16",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.0",
+    "@types/node": "^20.8.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^8.51.0",
+    "eslint-config-next": "14.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "nextjs",
+    "react",
+    "typescript",
+    "material-ui",
+    "mental-health",
+    "emotion-tracking"
+  ],
+  "author": "Mood Guardian Team",
+  "license": "MIT"
+}
