@@ -214,10 +214,10 @@ export default function AIChatPage() {
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* 页面标题和设置按钮 */}
-      <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ p: 1.5, borderBottom: 1, borderColor: 'divider' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box>
-            <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
               AI情绪陪伴
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -231,27 +231,27 @@ export default function AIChatPage() {
       </Box>
 
       {/* 聊天消息区域 */}
-      <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
+      <Box sx={{ flex: 1, overflow: 'auto', p: 1.5 }}>
         {messages.length === 0 ? (
-          <Box sx={{ textAlign: 'center', py: 8, px: 2 }}>
-            <AIIcon sx={{ fontSize: 64, color: 'primary.main', mb: 2, opacity: 0.8 }} />
-            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, color: 'text.primary' }}>
+          <Box sx={{ textAlign: 'center', py: 4, px: 2 }}>
+            <AIIcon sx={{ fontSize: 48, color: 'primary.main', mb: 1.5, opacity: 0.8 }} />
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1.5, color: 'text.primary' }}>
               AI情绪陪伴助手
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 4, lineHeight: 1.6, maxWidth: 500, mx: 'auto' }}>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3, lineHeight: 1.5, maxWidth: 500, mx: 'auto' }}>
               我是您的专属情绪陪伴助手，24小时在线倾听您的心情，提供专业的心理支持和情绪调节建议
             </Typography>
             
             {/* 快速开始建议 */}
-            <Box sx={{ maxWidth: 600, mx: 'auto', mb: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 3, color: 'primary.main' }}>
+            <Box sx={{ maxWidth: 600, mx: 'auto', mb: 3 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2, color: 'primary.main' }}>
                 您可以这样开始对话：
               </Typography>
-              <Grid container spacing={2}>
+              <Grid container spacing={1.5}>
                 <Grid item xs={12} sm={6}>
                   <Card
                     sx={{
-                      p: 2,
+                      p: 1.5,
                       cursor: 'pointer',
                       borderRadius: 2,
                       border: '1px solid',
@@ -264,10 +264,10 @@ export default function AIChatPage() {
                     }}
                     onClick={() => setInputMessage('我今天心情不太好，可以陪我聊聊吗？')}
                   >
-                    <Typography variant="body2" sx={{ fontWeight: '500' }}>
+                    <Typography variant="body2" sx={{ fontWeight: '500', fontSize: '0.9rem' }}>
                       心情倾诉
                     </Typography>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                       分享您的感受和烦恼
                     </Typography>
                   </Card>
@@ -347,7 +347,7 @@ export default function AIChatPage() {
               </Grid>
             </Box>
 
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 2, fontStyle: 'italic', fontSize: '0.875rem' }}>
               点击上方卡片快速开始，或直接在下方输入框输入您想说的话...
             </Typography>
           </Box>
@@ -478,7 +478,7 @@ export default function AIChatPage() {
       {/* 输入区域 */}
       <Paper
         sx={{
-          p: 2,
+          p: 1.5,
           borderTop: 1,
           borderColor: 'divider',
           backgroundColor: 'background.paper'
@@ -488,7 +488,7 @@ export default function AIChatPage() {
           <TextField
             fullWidth
             multiline
-            maxRows={4}
+            maxRows={3}
             variant="outlined"
             placeholder="告诉我您的心情、烦恼或任何想聊的话题..."
             value={inputMessage}
@@ -508,8 +508,8 @@ export default function AIChatPage() {
             disabled={!inputMessage.trim() || isLoading}
             sx={{
               minWidth: 'auto',
-              px: 3,
-              py: 1.5,
+              px: 2,
+              py: 1,
               borderRadius: 2,
               fontWeight: 'bold'
             }}
@@ -518,7 +518,7 @@ export default function AIChatPage() {
           </Button>
         </Box>
         {messages.length === 0 && (
-          <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+          <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block', fontSize: '0.75rem' }}>
             按 Enter 发送，Shift + Enter 换行
           </Typography>
         )}
